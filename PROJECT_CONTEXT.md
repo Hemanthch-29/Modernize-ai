@@ -661,9 +661,9 @@ Then show me the tree and confirm `python -c "import networkx, yaml, mcp, fastap
 ```
 
 **Done when:**
-- [ ] `.venv` exists and the import check passes
-- [ ] Folder structure matches section 5
-- [ ] First git commit made
+- [x] `.venv` exists and the import check passes
+- [x] Folder structure matches section 5
+- [x] First git commit made
 
 ---
 
@@ -685,13 +685,13 @@ POST /api/orders/3/cancel returns 409. Then npm install and build the React app 
 ```
 
 **Done when:**
-- [ ] `scripts/setup-db.ps1` creates `ShopDB` on `(localdb)\MSSQLLocalDB` and can be re-run safely
-- [ ] `GET http://localhost:5000/api/orders/1` → `total: 450.00` (Alice, Standard)
-- [ ] `GET http://localhost:5000/api/orders/2` → `total: 405.00` (Bob, Gold) ← the hidden rule works
-- [ ] `POST /api/orders/3/cancel` → 409 with the "shipped" error message
-- [ ] `GET /api/products` returns 3 products
-- [ ] `scripts/start-legacy.ps1` → open http://localhost:5173, browse products, Bob's order shows **405.00**, cancelling order 3 shows the error
-- [ ] Commit
+- [x] `scripts/setup-db.ps1` creates `ShopDB` on `(localdb)\MSSQLLocalDB` and can be re-run safely
+- [x] `GET http://localhost:5000/api/orders/1` → `total: 450.00` (Alice, Standard)
+- [x] `GET http://localhost:5000/api/orders/2` → `total: 405.00` (Bob, Gold) ← the hidden rule works
+- [x] `POST /api/orders/3/cancel` → 409 with the "shipped" error message
+- [x] `GET /api/products` returns 3 products
+- [x] `scripts/start-legacy.ps1` → open http://localhost:5173, browse products, Bob's order shows **405.00**, cancelling order 3 shows the error
+- [x] Commit
 
 ---
 
