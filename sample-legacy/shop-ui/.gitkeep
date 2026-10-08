@@ -1,0 +1,4 @@
+# Keep this directory in git. The React + Vite app is scaffolded here in Phase 1.
+# Before running `npm create vite@latest shop-ui -- --template react-ts`, remove these
+# .gitkeep placeholders (or scaffold into a temp dir and move src/ in) — create-vite
+# refuses a non-empty target.

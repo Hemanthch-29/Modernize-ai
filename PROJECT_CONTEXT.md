@@ -924,5 +924,5 @@ migrated/shop-api-python accordingly. Then re-run the parity tests.
 | 2026-10-06 | pyodbc instead of pymssql | pymssql cannot connect to LocalDB; ODBC Driver 18 is installed |
 | 2026-10-06 | Legacy React app and migrated Angular app are both fully runnable | Side-by-side visual demo of the migration and of the bug the parity test catches |
 | 2026-10-06 | Both UIs use relative `/api` URLs with a dev proxy | No CORS configuration needed |
-| 2026-10-08 | Phase 0 scaffolds the full tree with `.gitkeep` placeholders, but does **not** pre-create the CLI-scaffolded app roots `sample-legacy/shop-ui` (Vite) and `migrated/shop-ui-angular` (Angular CLI) | `npm create vite` / `ng new` refuse to scaffold into a non-empty directory, which would break Phases 1 and 5 |
+| 2026-10-08 | Phase 0 scaffolds the **full** section-5 tree with `.gitkeep` placeholders, **including** the CLI-scaffolded app roots `sample-legacy/shop-ui` (Vite) and `migrated/shop-ui-angular` (Angular CLI) | Keeps the committed skeleton complete. Phase 1/5: `npm create vite` / `ng new` refuse a non-empty target, so delete the placeholder `.gitkeep`s (or scaffold into a temp dir and move `src/` in) just before running the CLI |
 | | | |
