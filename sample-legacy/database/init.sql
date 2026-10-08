@@ -1,0 +1,2 @@
+-- init.sql — ShopDB schema, seed data, stored procedures and view.
+-- Implemented in Phase 1 (see PROJECT_CONTEXT.md section 6.1). Must be re-runnable.

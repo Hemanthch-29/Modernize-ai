@@ -1,0 +1,11 @@
+networkx          # knowledge graph
+pyyaml            # read portfolio.yaml
+pyodbc            # connect to SQL Server / LocalDB (pymssql cannot connect to LocalDB)
+mcp               # MCP server SDK (FastMCP)
+httpx             # parity tester HTTP calls
+fastapi           # new Python backend
+uvicorn           # run FastAPI
+sqlalchemy        # DB access in new backend
+python-dotenv     # load .env
+typer             # simple CLI
+pytest            # tests
