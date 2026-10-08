@@ -1,2 +1,27 @@
 # portfolio.yaml — the portfolio registry.
-# Filled in Phase 2 (see PROJECT_CONTEXT.md section 7). Never put passwords here; use connection_env.
+# Never put passwords here; connection_env names an environment variable (see PROJECT_CONTEXT.md section 7).
+portfolio: acme-dotnet-modernization
+
+defaults:
+  target_stack:
+    frontend: angular
+    backend: python-fastapi
+    cloud: aws
+
+applications:
+  - name: OnlineShop
+    owner: team-commerce
+    migration: { wave: 2, status: planning }
+    repos:
+      - { name: shop-ui,  path: sample-legacy/shop-ui,  type: react }
+      - { name: shop-api, path: sample-legacy/shop-api, type: dotnet }
+    databases:
+      - { name: ShopDB, type: sqlserver, connection_env: SHOPDB_CONN, mode: schema-only }
+
+  - name: Reporting
+    owner: team-analytics
+    migration: { wave: 1, status: not-started }
+    repos:
+      - { name: reports-batch, path: sample-legacy/reports-batch, type: dotnet }
+    databases:
+      - { name: ShopDB, type: sqlserver, connection_env: SHOPDB_CONN, mode: schema-only }
