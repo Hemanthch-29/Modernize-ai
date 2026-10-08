@@ -715,9 +715,9 @@ Run the tests and fix until green.
 ```
 
 **Done when:**
-- [ ] `pytest` passes
-- [ ] Each parser can be run alone and prints its facts
-- [ ] Commit
+- [x] `pytest` passes
+- [x] Each parser can be run alone and prints its facts
+- [x] Commit
 
 ---
 
