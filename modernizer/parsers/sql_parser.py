@@ -161,7 +161,11 @@ def _parse_columns(column_block: str) -> tuple[ColumnFact, ...]:
 
 def parse_init_sql(path: str | Path, database: str = "ShopDB") -> SqlFacts:
     """Fallback parser: read schema + routines straight from ``init.sql``."""
-    text = _blank_sql_comments(Path(path).read_text(encoding="utf-8"))
+    raw = Path(path).read_text(encoding="utf-8")
+    # Comment-blanking preserves character offsets, so spans found on the blanked text
+    # slice the ORIGINAL text — routine definitions keep their comments (e.g. the
+    # "10% discount" note), which keyword search and the migration report rely on.
+    text = _blank_sql_comments(raw)
     facts = SqlFacts(database=database)
 
     for match in _TABLE_RE.finditer(text):
@@ -175,7 +179,8 @@ def parse_init_sql(path: str | Path, database: str = "ShopDB") -> SqlFacts:
         )
 
     for match in _PROC_RE.finditer(text):
-        definition = match.group(0).strip()
+        start, end = match.span(0)
+        definition = raw[start:end].strip()
         reads, writes = extract_tables(definition)
         facts.routines.append(
             RoutineFact(
@@ -189,7 +194,8 @@ def parse_init_sql(path: str | Path, database: str = "ShopDB") -> SqlFacts:
         )
 
     for match in _VIEW_RE.finditer(text):
-        definition = match.group(0).strip()
+        start, end = match.span(0)
+        definition = raw[start:end].strip()
         reads, writes = extract_tables(definition)
         facts.routines.append(
             RoutineFact(
