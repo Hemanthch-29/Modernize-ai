@@ -742,11 +742,11 @@ OrderDetails and CustomerOrders (shop-ui). Run everything and fix until green.
 ```
 
 **Done when:**
-- [ ] `python -m modernizer.cli index` creates `output/graph.json`
-- [ ] `trace OrderDetails` prints the full chain from section 8.3, including the proc SQL showing the Gold discount
-- [ ] `dependents Orders` shows items from **both** OnlineShop and Reporting
-- [ ] Zero unresolved API calls for the sample app
-- [ ] Tests pass, commit
+- [x] `python -m modernizer.cli index` creates `output/graph.json`
+- [x] `trace OrderDetails` prints the full chain from section 8.3, including the proc SQL showing the Gold discount
+- [x] `dependents Orders` shows items from **both** OnlineShop and Reporting
+- [x] Zero unresolved API calls for the sample app
+- [x] Tests pass, commit
 
 ---
 
