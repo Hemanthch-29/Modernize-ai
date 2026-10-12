@@ -1,3 +1,10 @@
 {
-  "servers": {}
+  "servers": {
+    "modernizer": {
+      "type": "stdio",
+      "command": "${workspaceFolder}/.venv/Scripts/python.exe",
+      "args": ["-m", "modernizer.mcp_server"],
+      "cwd": "${workspaceFolder}"
+    }
+  }
 }

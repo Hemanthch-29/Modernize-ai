@@ -225,3 +225,86 @@ def search(text: str, graph: nx.MultiDiGraph | None = None) -> dict:
             results.append(_node_view(graph, node))
     results.sort(key=lambda r: (_TRACE_PRIORITY.get(r.get("type"), 99), str(r.get("name"))))
     return {"query": text, "count": len(results), "results": results}
+
+
+def app_summary(name: str, graph: nx.MultiDiGraph | None = None) -> dict:
+    """Counts, unresolved links and shared databases for one application (section 9.5).
+
+    ``name`` is an application name (e.g. ``OnlineShop``), matched case-insensitively. Returns the
+    number of UI components, API endpoints, C# classes, stored procedures and tables; the list of
+    unresolved API calls (UI calls with no matching endpoint); and the databases this app shares
+    with other applications.
+    """
+    graph = _graph(graph)
+    apps = [n for n in resolve(graph, name) if graph.nodes[n].get("type") == "Application"]
+    if not apps:
+        return {"name": name, "found": False}
+
+    app_node = apps[0]
+    data = graph.nodes[app_node]
+    app_name = str(data.get("name"))
+    low = app_name.lower()
+
+    repos: list[str] = []
+    databases: list[str] = []
+    for _, dst, _key in graph.out_edges(app_node, keys=True):
+        kind = graph.nodes[dst].get("type")
+        if kind == "Repo":
+            repos.append(dst)
+        elif kind == "Database":
+            databases.append(dst)
+
+    counts = {"components": 0, "endpoints": 0, "classes": 0, "procedures": 0, "tables": 0}
+    owned_type_to_key = {
+        "UIComponent": "components",
+        "ApiEndpoint": "endpoints",
+        "CSharpClass": "classes",
+    }
+    unresolved: list[dict] = []
+    for node, ndata in graph.nodes(data=True):
+        if str(ndata.get("app", "")).lower() != low:
+            continue
+        key = owned_type_to_key.get(ndata.get("type"))
+        if key:
+            counts[key] += 1
+        if ndata.get("type") == "ApiCall" and ndata.get("unresolved"):
+            unresolved.append(_node_view(graph, node))
+
+    # Stored procedures and tables live in the databases the app CONTAINS (they may be shared).
+    for db in databases:
+        for _, dst, _key in graph.out_edges(db, keys=True):
+            kind = graph.nodes[dst].get("type")
+            if kind == "StoredProcedure":
+                counts["procedures"] += 1
+            elif kind == "Table":
+                counts["tables"] += 1
+
+    shared_databases: list[dict] = []
+    for db in databases:
+        owners = sorted(
+            {
+                str(graph.nodes[src].get("name"))
+                for src, _, _key in graph.in_edges(db, keys=True)
+                if graph.nodes[src].get("type") == "Application"
+            }
+        )
+        if len(owners) > 1:
+            shared_databases.append(
+                {
+                    "database": str(graph.nodes[db].get("name")),
+                    "shared_with": [o for o in owners if o.lower() != low],
+                }
+            )
+
+    return {
+        "name": app_name,
+        "found": True,
+        "owner": data.get("owner"),
+        "wave": data.get("wave"),
+        "status": data.get("status"),
+        "repos": sorted(str(graph.nodes[r].get("name")) for r in repos),
+        "databases": sorted(str(graph.nodes[d].get("name")) for d in databases),
+        "counts": counts,
+        "unresolved_links": unresolved,
+        "shared_databases": shared_databases,
+    }

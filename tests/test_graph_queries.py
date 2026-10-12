@@ -138,6 +138,28 @@ def test_search_discount_finds_the_proc(graph: nx.MultiDiGraph):
     assert "usp_GetOrderById" in names
 
 
+# --- app_summary (section 9.5) ---------------------------------------------------------
+
+def test_app_summary_counts_and_shared_db(graph: nx.MultiDiGraph):
+    result = queries.app_summary("OnlineShop", graph=graph)
+    assert result["found"] is True
+
+    counts = result["counts"]
+    assert counts["components"] == 3          # OrderDetails, CustomerOrders, ProductList
+    assert counts["endpoints"] == 4           # the 4 shop-api routes
+    assert counts["procedures"] == 3          # usp_GetOrderById / usp_GetOrdersByCustomer / usp_CancelOrder
+    assert counts["tables"] == 4              # Customers, Products, Orders, OrderItems
+    assert result["unresolved_links"] == []   # every API call resolves for the sample app
+
+    shared = {s["database"]: s["shared_with"] for s in result["shared_databases"]}
+    assert "ShopDB" in shared
+    assert "Reporting" in shared["ShopDB"]
+
+
+def test_app_summary_unknown_app(graph: nx.MultiDiGraph):
+    assert queries.app_summary("Nope", graph=graph)["found"] is False
+
+
 # --- graph_store round-trip ------------------------------------------------------------
 
 def test_graph_json_round_trip(graph: nx.MultiDiGraph, tmp_path):
