@@ -8,11 +8,17 @@
 """
 from __future__ import annotations
 
+import sys
+
 import typer
 
 from modernizer import queries
 from modernizer.graph_store import load_graph
 from modernizer.indexer import build_and_save
+
+# Windows consoles default to cp1252, which cannot encode the tree glyphs (└─▶); force UTF-8.
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
 
 app = typer.Typer(add_completion=False, help="ModernizeAI — index and query the knowledge graph.")
 
