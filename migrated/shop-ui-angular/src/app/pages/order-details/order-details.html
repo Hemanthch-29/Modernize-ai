@@ -1,0 +1,42 @@
+<div>
+  <h1>Order {{ id() }}</h1>
+  @if (error(); as message) {
+    <p class="error">{{ message }}</p>
+  }
+  @if (order(); as o) {
+    <p>
+      Customer: <strong>{{ o.customerName }}</strong> &middot; Status:
+      <strong>{{ o.status }}</strong>
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+          <th>Qty</th>
+          <th>Unit price</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of o.items; track $index) {
+          <tr>
+            <td>{{ item.productName }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>{{ item.unitPrice.toFixed(2) }}</td>
+          </tr>
+        }
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2"><strong>Total</strong></td>
+          <td><strong>{{ o.total.toFixed(2) }}</strong></td>
+        </tr>
+      </tfoot>
+    </table>
+    <p style="margin-top: 1rem">
+      <button type="button" (click)="cancel()">Cancel order</button>
+    </p>
+  }
+  <p style="margin-top: 1rem">
+    <a routerLink="/products">&larr; Products</a>
+  </p>
+</div>

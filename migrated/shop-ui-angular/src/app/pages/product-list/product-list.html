@@ -1,0 +1,21 @@
+<div>
+  <h1>Products</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of products(); track p.id) {
+        <tr>
+          <td>{{ p.id }}</td>
+          <td>{{ p.name }}</td>
+          <td>{{ p.price.toFixed(2) }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

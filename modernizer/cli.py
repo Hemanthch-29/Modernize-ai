@@ -13,8 +13,10 @@ import sys
 import typer
 
 from modernizer import queries
+from modernizer.config import PROJECT_ROOT
 from modernizer.graph_store import load_graph
 from modernizer.indexer import build_and_save
+from modernizer.report import write_report
 
 # Windows consoles default to cp1252, which cannot encode the tree glyphs (└─▶); force UTF-8.
 if hasattr(sys.stdout, "reconfigure"):
@@ -108,6 +110,22 @@ def search(text: str) -> None:
     typer.echo(f"{result['count']} match(es) for '{text}':")
     for node in result["results"]:
         typer.echo(f"  {node['type']:16} {node['name']}{_location(node)}")
+
+
+@app.command()
+def report(name: str) -> None:
+    """Generate and print an application's migration-plan report."""
+    try:
+        path = write_report(name, graph=load_graph())
+    except ValueError as error:
+        typer.echo(str(error), err=True)
+        raise typer.Exit(code=1) from error
+    try:
+        display_path = path.relative_to(PROJECT_ROOT)
+    except ValueError:
+        display_path = path
+    typer.echo(f"Wrote {display_path}\n")
+    typer.echo(path.read_text(encoding="utf-8"), nl=False)
 
 
 if __name__ == "__main__":

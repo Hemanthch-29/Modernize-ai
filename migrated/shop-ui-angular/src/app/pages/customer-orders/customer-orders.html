@@ -1,0 +1,21 @@
+<div>
+  <h1>Orders for customer {{ customerId() }}</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Order</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (o of orders(); track o.orderId) {
+        <tr>
+          <td>{{ o.orderId }}</td>
+          <td>{{ o.status }}</td>
+          <td><a [routerLink]="['/orders', o.orderId]">details</a></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
