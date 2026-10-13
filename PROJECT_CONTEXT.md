@@ -815,12 +815,12 @@ Create scripts/start-modern.ps1. Run `npx ng build` to prove it compiles, then s
 ```
 
 **Done when:**
-- [ ] `output/reports/OnlineShop-migration-plan.md` exists and flags both hidden rules and the shared table
-- [ ] FastAPI runs on port 8000 and `GET /api/orders/1` returns `450.00`
-- [ ] `GET /api/orders/2` on the new API returns `450.00` (**wrong on purpose**: v1 is missing the discount)
-- [ ] Angular app builds and runs on http://localhost:4200 with all 3 pages working
-- [ ] Side by side: Bob's order shows **405.00 in the old React app** and **450.00 in the new Angular app** (the bug a real migration could ship)
-- [ ] Commit with message `v1 conversion (missing discount - demo)`
+- [x] `output/reports/OnlineShop-migration-plan.md` exists and flags both hidden rules and the shared table
+- [x] FastAPI runs on port 8000 and `GET /api/orders/1` returns `450.00`
+- [x] `GET /api/orders/2` on the new API returns `450.00` (**wrong on purpose**: v1 is missing the discount)
+- [x] Angular app builds and runs on http://localhost:4200 with all 3 pages working
+- [x] Side by side: Bob's order shows **405.00 in the old React app** and **450.00 in the new Angular app** (the bug a real migration could ship) _(modern 450.00 verified live on :4200; legacy 405.00 verified in Phase 1)_
+- [x] Commit with message `v1 conversion (missing discount - demo)`
 
 ---
 
